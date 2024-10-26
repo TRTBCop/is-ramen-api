@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// 인증관련
+Route::prefix('auth')->name('auth.')->group(function () {
+    // 로그인
+    Route::post('/login', [AuthController::class, 'login']);
+
+    // 회원가입
+    Route::post('/register', [AuthController::class, 'register']);
+
+    // 로그아웃
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
